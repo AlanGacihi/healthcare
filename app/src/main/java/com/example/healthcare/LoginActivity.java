@@ -19,8 +19,7 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
 
     EditText edUsername, edPassword;
-    Button loginButton;
-    TextView register;
+    TextView register, loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
         edUsername = findViewById(R.id.editTextLoginUsername);
         edPassword = findViewById(R.id.editTextLoginPassword);
-        loginButton = findViewById(R.id.LoginButton);
+        loginButton = findViewById(R.id.editTextLoginButton);
         register = findViewById(R.id.textViewRegister);
 
         reset(edUsername);
@@ -58,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                finish();
             }
         });
     }
@@ -86,8 +86,10 @@ public class LoginActivity extends AppCompatActivity {
             LocalDatabase localdb = new LocalDatabase(getApplicationContext(), "healthcare", null, 1);
             if (localdb.areValidCredentials(username, password)) {
                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                finish();
             } else if (username.equals("admin") && password.equals("4Thespine")) {
                 startActivity(new Intent(LoginActivity.this, AdminActivity.class));
+                finish();
             } else {
                 // Call the method with the error message
                 showErrorToast("Incorrect Username/Password!");
@@ -119,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
         Drawable originalBackground = field.getBackground();
         if (originalBackground instanceof GradientDrawable) {
             GradientDrawable gradientDrawable = (GradientDrawable) originalBackground;
-            gradientDrawable.setStroke(2, Color.RED);  // Change the stroke color and width
+            gradientDrawable.setStroke(3, Color.RED);  // Change the stroke color and width
         }
     }
 
@@ -127,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         Drawable originalBackground = field.getBackground();
         if (originalBackground instanceof GradientDrawable) {
             GradientDrawable gradientDrawable = (GradientDrawable) originalBackground;
-            gradientDrawable.setStroke(2, Color.WHITE);  // Change the stroke color and width
+            gradientDrawable.setStroke(2, Color.BLACK);  // Change the stroke color and width
         }
     }
 }
