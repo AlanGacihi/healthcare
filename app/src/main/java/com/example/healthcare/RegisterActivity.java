@@ -83,13 +83,18 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (!empty) {
-            String username = editTextArray[2].getText().toString();
+            String firstname = editTextArray[0].getText().toString().trim();
+            String lastname = editTextArray[1].getText().toString().trim();
+            String username = editTextArray[2].getText().toString().trim();
             String password = editTextArray[3].getText().toString();
             String confirm = editTextArray[4].getText().toString();
             if (password.equals(confirm)) {
                 if (isValidPassword(password)) {
-                    if (userIsNew(username)) {
-                        Toast.makeText(getApplicationContext(), "Registration Success", Toast.LENGTH_SHORT).show();
+                    LocalDatabase localdb = new LocalDatabase(getApplicationContext(), "healthcare", null, 1);
+                    if (localdb.userIsNew(username)) {
+                        localdb.register(firstname, lastname, username, password);
+                        Toast.makeText(getApplicationContext(), "Account Registered. Proceed to login.", Toast.LENGTH_LONG).show();
+                        //startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                     } else {
                         showErrorToast("A user with that username / email already exists!");
                         showInRed(editTextArray[2]);
@@ -115,10 +120,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         }
-    }
-
-    private boolean userIsNew(String username) {
-        return true;
     }
 
     private boolean isValidPassword(String password) {

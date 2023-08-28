@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         reset(edUsername);
         reset(edPassword);
 
-        String username = edUsername.getText().toString();
+        String username = edUsername.getText().toString().trim();
         String password = edPassword.getText().toString();
 
         if (password.length() == 0 && username.length() == 0) {
@@ -83,11 +83,12 @@ public class LoginActivity extends AppCompatActivity {
             showInRed(edPassword);
             edPassword.requestFocus();
         } else {
-            if ((username.equals("major") && password.equals("thespine")) ||
-                    (username.equals("admin") && password.equals("4Thespine"))) {
-                Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            LocalDatabase localdb = new LocalDatabase(getApplicationContext(), "healthcare", null, 1);
+            if (localdb.areValidCredentials(username, password)) {
+                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            } else if (username.equals("admin") && password.equals("4Thespine")) {
+                startActivity(new Intent(LoginActivity.this, AdminActivity.class));
+            } else {
                 // Call the method with the error message
                 showErrorToast("Incorrect Username/Password!");
                 showInRed(edUsername);
